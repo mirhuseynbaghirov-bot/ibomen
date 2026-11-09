@@ -11,7 +11,7 @@ export const firebaseConfig = {
 };
 
 // 2) Admin e-poçtu (Firebase Authentication-da yaratdığınız istifadəçi)
-export const ADMIN_EMAIL = "admin@email.com";
+export const ADMIN_EMAIL = "ibomen@gmail.com";
 
 // 3) Cloudinary: Cloud name və "Unsigned" upload preset adı
 export const CLOUD_NAME = "djrmuwzy";
@@ -21,7 +21,7 @@ export const UPLOAD_PRESET = "ymvkjqcr";
 export const INSTAGRAM = "ibomen";
 
 // 5) Məhsul sayı limiti (0 = limit yoxdur) və valyuta
-export const MAX_PRODUCTS = 100;
+export const MAX_PRODUCTS = 50;
 export const CURRENCY = "₼";
 
 // 6) Brend mətnləri
