@@ -4,10 +4,10 @@
 
 // 1) Firebase Console → Project settings → General → Your apps → Config
 export const firebaseConfig = {
-  apiKey: "BURA_YAZIN",
-  authDomain: "PROJECT_ID.firebaseapp.com",
-  projectId: "PROJECT_ID",
-  appId: "BURA_YAZIN"
+  apiKey: "AIzaSyAqaRtk16Kimpc4tXBg2yrJGlVyuCGulE4",
+  authDomain: "ibomen-a62fd.firebaseapp.com",
+  projectId: "ibomen-a62fd",
+  appId: "1:157650261296:web:1578b8da31b013efc7e4f5"
 };
 
 // 2) Admin e-poçtu (Firebase Authentication-da yaratdığınız istifadəçi)
