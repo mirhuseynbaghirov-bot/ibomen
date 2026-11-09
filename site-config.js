@@ -14,8 +14,8 @@ export const firebaseConfig = {
 export const ADMIN_EMAIL = "admin@email.com";
 
 // 3) Cloudinary: Cloud name və "Unsigned" upload preset adı
-export const CLOUD_NAME = "BURA_YAZIN";
-export const UPLOAD_PRESET = "BURA_YAZIN";
+export const CLOUD_NAME = "djrmuwzy";
+export const UPLOAD_PRESET = "ymvkjqcr";
 
 // 4) Instagram istifadəçi adı (@ olmadan) — real ad ilə əvəz edin
 export const INSTAGRAM = "ibomen";
