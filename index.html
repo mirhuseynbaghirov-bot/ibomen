@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<title>İboMen</title>
+<link rel="stylesheet" href="store.css">
+</head>
+<body>
+<div class="marquee" id="marquee" aria-hidden="true"><div id="mqin"></div></div>
+<header class="top">
+  <div class="wrap nav">
+    <a class="logo" id="logo" href="#"></a>
+    <nav>
+      <a href="#shop">Məhsullar</a>
+      <a href="#how">Sifariş</a>
+      <a href="#about" id="aboutLink" hidden>Haqqımızda</a>
+      <a class="btn dark sm" id="igTop" target="_blank" rel="noopener">Instagram</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hl">
+    <h1 id="heroTitle"></h1>
+    <p id="heroText"></p>
+    <div class="cta">
+      <a class="btn main" href="#shop">Məhsullara bax</a>
+      <a class="btn out" id="igHero" target="_blank" rel="noopener">Instagramda yaz</a>
+    </div>
+  </div>
+  <div class="hr ph" id="shot"></div>
+</section>
+
+<main>
+  <section class="shop" id="shop">
+    <div class="wrap">
+      <div class="shop-head">
+        <div><h2>Məhsullar</h2><div class="count" id="count"></div></div>
+        <input class="search" id="q" type="search" placeholder="Məhsul axtar" aria-label="Məhsul axtar">
+      </div>
+      <div class="tabs" id="tabs" hidden></div>
+      <div class="grid" id="grid">
+        <div class="sk"><div class="img"></div><div class="l"></div></div>
+        <div class="sk"><div class="img"></div><div class="l"></div></div>
+        <div class="sk"><div class="img"></div><div class="l"></div></div>
+        <div class="sk"><div class="img"></div><div class="l"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" id="how">
+    <div class="wrap"><h2>Necə sifariş edim?</h2><div class="steps" id="steps"></div></div>
+  </section>
+
+  <section class="about" id="about" hidden>
+    <div class="wrap two"><h2>Haqqımızda</h2><p id="aboutText"></p></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="biglogo" id="bigLogo"></div>
+    <div class="foot"><span>© <span id="yr"></span> <span id="nameFoot"></span></span><a id="igFoot" target="_blank" rel="noopener"></a></div>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { firebaseConfig, INSTAGRAM, CURRENCY, BRAND, THEME } from "./site-config.js";
+import { applyTheme } from "./theme.js";
+
+applyTheme(THEME);
+const db = getFirestore(initializeApp(firebaseConfig));
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const thumb = (u, w) => u.replace("/upload/", `/upload/f_auto,q_auto,w_${w}/`);
+const dm = `https://ig.me/m/${INSTAGRAM}`, profile = `https://instagram.com/${INSTAGRAM}`;
+
+/* ---- brend mətnləri ---- */
+document.title = BRAND.name;
+for (const id of ["logo", "bigLogo", "nameFoot"]) $(id).textContent = BRAND.name;
+$("heroTitle").textContent = BRAND.heroTitle; $("heroText").textContent = BRAND.heroText;
+$("igTop").href = profile; $("igHero").href = dm; $("igFoot").href = profile; $("igFoot").textContent = "@" + INSTAGRAM;
+$("yr").textContent = new Date().getFullYear();
+$("shot").textContent = (BRAND.name || "B").trim().charAt(0).toUpperCase();
+if (BRAND.announce){ const one = `<span>${esc(BRAND.announce)}</span><i></i>`; $("mqin").innerHTML = one.repeat(12); } else $("marquee").hidden = true;
+$("steps").innerHTML = BRAND.steps.map((s, i) => `<div class="step"><span class="n">${i + 1}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></div>`).join("");
+if (BRAND.about){ $("about").hidden = false; $("aboutLink").hidden = false; $("aboutText").textContent = BRAND.about; }
+
+/* ---- məhsullar ---- */
+const KEY = "ibomen_catalog_v1", TTL = 3 * 60 * 1000;     // brauzer yaddaşı: 3 dəq
+const readCache = () => { try { return JSON.parse(localStorage.getItem(KEY)); } catch { return null; } };
+let products = [], active = "Hamısı", term = "";
+
+const stockTag = n => n <= 0 ? '<span class="tag out">Bitib</span>' : n <= 3 ? `<span class="tag low">Son ${n} ədəd</span>` : "";
+const sizeChips = s => { const a = String(s || "").split(/[,\s/]+/).filter(Boolean); return a.length ? `<div class="sizes">${a.map(x => `<span>${esc(x)}</span>`).join("")}</div>` : ""; };
+
+function render(list){
+  if (!list.length){ $("grid").innerHTML = '<div class="empty">Bu axtarışa uyğun məhsul tapılmadı.</div>'; return; }
+  $("grid").innerHTML = list.map(p => `
+    <article class="card${p.stock <= 0 ? " sold" : ""}">
+      <div class="ph"><img src="${thumb(p.image, 600)}" width="600" height="800" alt="${esc(p.name)}" loading="lazy" decoding="async">${stockTag(p.stock)}</div>
+      <div class="info">
+        ${p.category ? `<div class="cat">${esc(p.category)}</div>` : ""}
+        <h3>${esc(p.name)}</h3>
+        ${sizeChips(p.sizes)}
+        <span class="price">${Number(p.price).toFixed(2)} ${CURRENCY}</span>
+        ${p.stock > 0 ? `<a class="btn dark block" href="${dm}" target="_blank" rel="noopener">Sifariş et</a>` : `<span class="btn off block">Bitib</span>`}
+      </div>
+    </article>`).join("");
+}
+function tabs(){
+  const cats = [...new Set(products.map(p => p.category).filter(Boolean))];
+  $("tabs").hidden = !cats.length;
+  $("tabs").innerHTML = ["Hamısı", ...cats].map(c => `<button class="tab${c === active ? " on" : ""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+}
+function apply(){
+  const t = term.toLowerCase();
+  const list = products.filter(p => (active === "Hamısı" || p.category === active) && p.name.toLowerCase().includes(t));
+  $("count").textContent = `${list.length} məhsul`; render(list);
+}
+function featured(){
+  const p = products.find(x => x.stock > 0) || products[0]; if (!p) return;
+  $("shot").className = "hr";
+  $("shot").innerHTML = `<img src="${thumb(p.image, 1000)}" alt="${esc(p.name)}"><div class="sticker"><small>${esc(p.name)}</small>${Number(p.price).toFixed(2)} ${CURRENCY}</div>`;
+}
+
+const cache = readCache();
+let items = null;
+if (cache && cache.items?.length && Date.now() - cache.t < TTL) items = cache.items;
+else {
+  try {
+    const s = await getDoc(doc(db, "shop", "catalog"));
+    items = s.exists() ? (s.data().items || []) : [];
+    if (items.length){ try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), items })); } catch {} }
+  } catch (e) { console.error(e); if (cache) items = cache.items; }
+}
+if (items){
+  products = items.slice().sort((a, b) => b.createdAt - a.createdAt);
+  featured(); tabs();
+  products.length ? apply() : ($("grid").innerHTML = '<div class="empty">Tezliklə yeni məhsullar əlavə olunacaq.</div>');
+} else $("grid").innerHTML = '<div class="empty">Məhsullar yüklənmədi. Bir az sonra yenidən yoxlayın.</div>';
+
+$("q").addEventListener("input", e => { term = e.target.value.trim(); apply(); });
+$("tabs").addEventListener("click", e => { const b = e.target.closest(".tab"); if (!b) return; active = b.dataset.c; tabs(); apply(); });
+</script>
+</body>
+</html>
