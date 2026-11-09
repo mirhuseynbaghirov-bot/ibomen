@@ -18,7 +18,7 @@ export const CLOUD_NAME = "djrmuwzy";
 export const UPLOAD_PRESET = "ymvkjqcr";
 
 // 4) Instagram istifadəçi adı (@ olmadan) — real ad ilə əvəz edin
-export const INSTAGRAM = "ibomen";
+export const INSTAGRAM = "ibomen__";
 
 // 5) Məhsul sayı limiti (0 = limit yoxdur) və valyuta
 export const MAX_PRODUCTS = 50;
