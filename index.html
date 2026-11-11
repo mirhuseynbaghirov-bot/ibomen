@@ -4,14 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0a0a">
-<title>İboMen</title>
+<title>İboMen — Paltar mağazası</title>
+<meta name="description" content="İboMen (ibomen): paltar mağazası. Yeni kolleksiya, sifariş Instagram DM-də.">
+<link rel="canonical" href="https://SAYT-UNVANI/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="İboMen — Paltar mağazası">
+<meta property="og:description" content="Yeni kolleksiya. Ölçünü seç, Instagram-da bizə yaz.">
+<meta property="og:url" content="https://SAYT-UNVANI/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"İboMen","alternateName":["Ibomen","ibomen"],"url":"https://SAYT-UNVANI/","sameAs":["https://instagram.com/INSTAGRAM-ADI"]}</script>
 <link rel="stylesheet" href="store.css">
 </head>
 <body>
 <div class="marquee" id="marquee" aria-hidden="true"><div id="mqin"></div></div>
 <header class="top">
   <div class="wrap nav">
-    <a class="logo" id="logo" href="#"></a>
+    <a class="logo" id="logo" href="#">İboMen</a>
     <nav>
       <a href="#shop">Məhsullar</a>
       <a href="#how">Sifariş</a>
@@ -23,8 +30,8 @@
 
 <section class="hero">
   <div class="hl">
-    <h1 id="heroTitle"></h1>
-    <p id="heroText"></p>
+    <h1 id="heroTitle">Üslubunu geyin</h1>
+    <p id="heroText">Yeni gələn paltarlar. Ölçünü seç, Instagram-da bizə yaz, sifarişin hazırdır.</p>
     <div class="cta">
       <a class="btn main" href="#shop">Məhsullara bax</a>
       <a class="btn out" id="igHero" target="_blank" rel="noopener">Instagramda yaz</a>
@@ -61,8 +68,8 @@
 
 <footer>
   <div class="wrap">
-    <div class="biglogo" id="bigLogo"></div>
-    <div class="foot"><span>© <span id="yr"></span> <span id="nameFoot"></span></span><a id="igFoot" target="_blank" rel="noopener"></a></div>
+    <div class="biglogo" id="bigLogo">İboMen</div>
+    <div class="foot"><span>© <span id="yr"></span> <span id="nameFoot">İboMen</span></span><a id="igFoot" target="_blank" rel="noopener"></a></div>
   </div>
 </footer>
 
@@ -80,7 +87,6 @@ const thumb = (u, w) => u.replace("/upload/", `/upload/f_auto,q_auto,w_${w}/`);
 const dm = `https://ig.me/m/${INSTAGRAM}`, profile = `https://instagram.com/${INSTAGRAM}`;
 
 /* ---- brend mətnləri ---- */
-document.title = BRAND.name;
 for (const id of ["logo", "bigLogo", "nameFoot"]) $(id).textContent = BRAND.name;
 $("heroTitle").textContent = BRAND.heroTitle; $("heroText").textContent = BRAND.heroText;
 $("igTop").href = profile; $("igHero").href = dm; $("igFoot").href = profile; $("igFoot").textContent = "@" + INSTAGRAM;
