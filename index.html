@@ -7,18 +7,32 @@
 <title>İboMen — Paltar mağazası</title>
 <meta name="description" content="İboMen (ibomen): paltar mağazası. Yeni kolleksiya, sifariş Instagram DM-də.">
 <link rel="canonical" href="https://ibomen-jade.vercel.app/">
+
+<!-- Logo / ikonlar -->
+<link rel="icon" type="image/png" href="/logo.png?v=1">
+<link rel="shortcut icon" href="/logo.png?v=1">
+<link rel="apple-touch-icon" href="/logo.png?v=1">
+
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="İboMen">
 <meta property="og:title" content="İboMen — Paltar mağazası">
 <meta property="og:description" content="Yeni kolleksiya. Ölçünü seç, Instagram-da bizə yaz.">
 <meta property="og:url" content="https://ibomen-jade.vercel.app/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"İboMen","alternateName":["Ibomen","ibomen"],"url":"https://ibomen-jade.vercel.app/","sameAs":["https://instagram.com/ibomen.ahmedli"]}</script>
+<meta property="og:image" content="https://ibomen-jade.vercel.app/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ibomen-jade.vercel.app/logo.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"İboMen","alternateName":["Ibomen","ibomen"],"url":"https://ibomen-jade.vercel.app/","logo":"https://ibomen-jade.vercel.app/logo.png","image":"https://ibomen-jade.vercel.app/logo.png","sameAs":["https://instagram.com/ibomen.ahmedli"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"İboMen","alternateName":["Ibomen","ibomen"],"url":"https://ibomen-jade.vercel.app/"}</script>
 <link rel="stylesheet" href="store.css">
 </head>
 <body>
 <div class="marquee" id="marquee" aria-hidden="true"><div id="mqin"></div></div>
 <header class="top">
   <div class="wrap nav">
-    <a class="logo" id="logo" href="#">İboMen</a>
+    <a class="logo" id="logo" href="#" aria-label="İboMen">
+      <img class="logo-img" src="logo.png?v=1" alt="İboMen logosu" height="44">
+      <span id="logoText">İboMen</span>
+    </a>
     <nav>
       <a href="#shop">Məhsullar</a>
       <a href="#how">Sifariş</a>
@@ -68,6 +82,7 @@
 
 <footer>
   <div class="wrap">
+    <img class="foot-logo" src="logo.png?v=1" alt="İboMen logosu" height="72" loading="lazy">
     <div class="biglogo" id="bigLogo">İboMen</div>
     <div class="foot"><span>© <span id="yr"></span> <span id="nameFoot">İboMen</span></span><a id="igFoot" target="_blank" rel="noopener"></a></div>
   </div>
@@ -87,7 +102,7 @@ const thumb = (u, w) => u.replace("/upload/", `/upload/f_auto,q_auto,w_${w}/`);
 const dm = `https://ig.me/m/${INSTAGRAM}`, profile = `https://instagram.com/${INSTAGRAM}`;
 
 /* ---- brend mətnləri ---- */
-for (const id of ["logo", "bigLogo", "nameFoot"]) $(id).textContent = BRAND.name;
+for (const id of ["logoText", "bigLogo", "nameFoot"]) $(id).textContent = BRAND.name;
 $("heroTitle").textContent = BRAND.heroTitle; $("heroText").textContent = BRAND.heroText;
 $("igTop").href = profile; $("igHero").href = dm; $("igFoot").href = profile; $("igFoot").textContent = "@" + INSTAGRAM;
 $("yr").textContent = new Date().getFullYear();
